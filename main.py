@@ -1,21 +1,11 @@
 from fastapi import FastAPI, HTTPException
-from sqlmodel import SQLModel, Field, create_engine, Session, select
-from typing import Optional, List
+from sqlmodel import SQLModel, Session, select
+from typing import List
+
+from db import engine
+from models import Usuario, Libro
 
 app = FastAPI()
-
-sqlite_file_name = "database.db"
-engine = create_engine(f"sqlite:///{sqlite_file_name}")
-
-class Usuario(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    nombre: str
-    email: str
-
-class Libro(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    titulo: str
-    autor: str
 
 @app.on_event("startup")
 def on_startup():
